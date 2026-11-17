@@ -24,26 +24,26 @@ class WhoamiControllerTests {
 
     @Test
     void rejectsMissingToken() throws Exception {
-        mvc.perform(get("/api/whoami").header("X-User-Id", "u1")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/v1/whoami").header("X-User-Id", "u1")).andExpect(status().isUnauthorized());
     }
 
     @Test
     void rejectsTokenWithoutServiceScope() throws Exception {
-        mvc.perform(get("/api/whoami").header("X-User-Id", "u1")
+        mvc.perform(get("/api/v1/whoami").header("X-User-Id", "u1")
                         .with(jwt().authorities(() -> "SCOPE_other")))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void rejectsUserHeaderWithoutActAsUserScope() throws Exception {
-        mvc.perform(get("/api/whoami").header("X-User-Id", "u1")
+        mvc.perform(get("/api/v1/whoami").header("X-User-Id", "u1")
                         .with(jwt().authorities(() -> "SCOPE_interview-copilot/service")))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void returnsUserIdAndClientId() throws Exception {
-        mvc.perform(get("/api/whoami").header("X-User-Id", "u1")
+        mvc.perform(get("/api/v1/whoami").header("X-User-Id", "u1")
                         .with(jwt().jwt(j -> j.claim("azp", "interview-copilot-bff"))
                                 .authorities(() -> "SCOPE_interview-copilot/service",
                                         () -> "SCOPE_interview-copilot/act-as-user")))
@@ -54,7 +54,7 @@ class WhoamiControllerTests {
 
     @Test
     void rejectsMissingUserId() throws Exception {
-        mvc.perform(get("/api/whoami")
+        mvc.perform(get("/api/v1/whoami")
                         .with(jwt().authorities(() -> "SCOPE_interview-copilot/service",
                                 () -> "SCOPE_interview-copilot/act-as-user")))
                 .andExpect(status().isBadRequest());

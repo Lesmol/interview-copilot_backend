@@ -42,7 +42,7 @@ class SpeechTokenControllerTests {
 
     @Test
     void returnsShortLivedTokenNotTheApiKey() throws Exception {
-        mvc.perform(get("/api/stt-token?provider=deepgram").header("X-User-Id", "u1").with(service()))
+        mvc.perform(get("/api/v1/stt-token?provider=deepgram").header("X-User-Id", "u1").with(service()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.provider").value("deepgram"))
                 .andExpect(jsonPath("$.token").value("temp-token"))
@@ -51,12 +51,12 @@ class SpeechTokenControllerTests {
 
     @Test
     void rejectsUnknownProvider() throws Exception {
-        mvc.perform(get("/api/stt-token?provider=nope").header("X-User-Id", "u1").with(service()))
+        mvc.perform(get("/api/v1/stt-token?provider=nope").header("X-User-Id", "u1").with(service()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void requiresServiceToken() throws Exception {
-        mvc.perform(get("/api/stt-token").header("X-User-Id", "u1")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/v1/stt-token").header("X-User-Id", "u1")).andExpect(status().isUnauthorized());
     }
 }
