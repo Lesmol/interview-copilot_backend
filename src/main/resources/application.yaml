@@ -30,3 +30,9 @@ management:
 
 server:
   port: ${PORT:8080}
+
+speech:
+  deepgram:
+    api-key: ${DEEPGRAM_API_KEY:}
+    base-url: ${DEEPGRAM_BASE_URL:https://api.deepgram.com}
+    token-ttl-seconds: ${STT_TOKEN_TTL_SECONDS:60}
