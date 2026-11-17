@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: interview-copilot_backend
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/interview_copilot}
+    username: ${DATABASE_USER:interview_copilot}
+    password: ${DATABASE_PASSWORD:CHANGE_ME}
+  flyway:
+    enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # iss is validated against the public issuer; keys are fetched over the internal URL.
+          issuer-uri: ${OIDC_ISSUER_URI:http://localhost:8081/realms/interview-copilot}
+          jwk-set-uri: ${OIDC_JWKS_URI:http://localhost:8081/realms/interview-copilot/protocol/openid-connect/certs}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+server:
+  port: ${PORT:8080}
