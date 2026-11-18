@@ -59,3 +59,10 @@ identity:
     client-secret: ${IDP_ADMIN_CLIENT_SECRET:}
     username: ${IDP_ADMIN_USERNAME:}
     password: ${IDP_ADMIN_PASSWORD:}
+
+suggestions:
+  api-key: ${ANTHROPIC_API_KEY:}
+  base-url: ${ANTHROPIC_BASE_URL:}
+  model: ${SUGGESTIONS_MODEL:claude-haiku-5-5}
+  prompt-resource: ${SUGGESTIONS_PROMPT:prompts/journalism.md}
+  window-seconds: ${SUGGESTIONS_WINDOW_SECONDS:180}

@@ -4,7 +4,7 @@ Spring Modulith backend: auth, sessions, questions, speech tokens, suggestions, 
 
 Milestone 1 contains the `auth` module: it validates the service token, trusts `X-User-Id` only with scope `interview-copilot/act-as-user`, upserts the user, and writes an audit log line with the client id and user id. `GET /api/v1/whoami` returns both.
 
-The `accounts` module handles sign-up and password reset through the IdP's admin API (`POST /api/v1/accounts/sign-up`, `/password-reset/request`, `/password-reset/confirm`). Reset links are emailed (SMTP) and the token is stored only as a SHA-256 hash, single-use, 30 minutes. The `speechtokens` module mints short-lived Deepgram tokens.
+The `accounts` module handles sign-up and password reset through the IdP's admin API (`POST /api/v1/accounts/sign-up`, `/password-reset/request`, `/password-reset/confirm`). Reset links are emailed (SMTP) and the token is stored only as a SHA-256 hash, single-use, 30 minutes. The `speechtokens` module mints short-lived Deepgram tokens. The `sessions` module stores sessions and final utterances; the `suggestions` module turns each final utterance into at most a few one-line suggestions with Claude Haiku (`ANTHROPIC_API_KEY`), streams them over SSE (`GET /api/v1/sessions/{id}/suggestions/stream`) and records Asked, Pin and Dismiss (`PATCH /api/v1/suggestions/{id}`). `openapi/backend.json` is the committed contract; regenerate with `./mvnw test -Dopenapi.update=true`.
 
 `ModularityTests` runs `ApplicationModules.of(Application.class).verify()`; it fails the build when a module reaches into another's internals.
 
